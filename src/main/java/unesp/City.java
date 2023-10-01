@@ -7,6 +7,7 @@ public class City {
 
     List<Map<City, Integer>> neighbourhoods = new java.util.ArrayList<>();
     String name;
+    Integer distanceFromF;
 
     public City(String name) {
         this.name = name;
@@ -33,6 +34,21 @@ public class City {
 
                 if (neighbourDistance < minDistance && !alreadyVisited.contains(neighbour.getKey())) {
                     minDistance = neighbourDistance;
+                    closestNeighbour = neighbour.getKey();
+                }
+            }
+        }
+        return closestNeighbour;
+    }
+
+    public City getClosestNeighbourFromF(List<City> alreadyVisited){
+        int minDistance = Integer.MAX_VALUE;
+        City closestNeighbour = null;
+        for (Map<City, Integer> neighbourhood : this.neighbourhoods) {
+            for (Map.Entry<City, Integer> neighbour : neighbourhood.entrySet()) {
+                int neighbourDistanceFromF = neighbour.getKey().distanceFromF;
+                if (neighbourDistanceFromF < minDistance && !alreadyVisited.contains(neighbour.getKey())) {
+                    minDistance = neighbourDistanceFromF;
                     closestNeighbour = neighbour.getKey();
                 }
             }

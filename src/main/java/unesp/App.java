@@ -126,5 +126,52 @@ public class App
             The closest neighbour from K is F you can go there in 8 minutes.
         We have arrived at F
          */
+
+
+        // Best first search
+        I.distanceFromF = 19;
+        A.distanceFromF = 19;
+        B.distanceFromF = 16;
+        C.distanceFromF = 13;
+        D.distanceFromF = 13;
+        E.distanceFromF = 11;
+        G.distanceFromF = 9;
+        H.distanceFromF = 11;
+        K.distanceFromF = 11;
+        F.distanceFromF = 0;
+        W.distanceFromF = 5;
+        T.distanceFromF = 7;
+        S.distanceFromF = 11;
+        R.distanceFromF = 11;
+        Q.distanceFromF = 9;
+        P.distanceFromF = 9;
+        U.distanceFromF = 10;
+        V.distanceFromF = 8;
+        N.distanceFromF = 12;
+        L.distanceFromF = 18;
+        M.distanceFromF = 9;
+
+        current = I;
+        end = F;
+
+        System.out.println("Finding a path from " + current.name + " to " + end.name + " by the best first search");
+
+        // I would prefer to use visited list and avoid the infinite loop
+        // although it is not necessary in this case
+        visited = new ArrayList<>();
+
+        while(true){
+            City closestNeighbour = current.getClosestNeighbourFromF(visited);
+            visited.add(closestNeighbour);
+            System.out.println("The closest neighbour from F from " + current.name + " is " + closestNeighbour.name + " you would be then " + closestNeighbour.distanceFromF + " minutes away from F.");
+
+            if (closestNeighbour == end) {
+                System.out.println("We have arrived at " + end.name);
+                break;
+            } else {
+                current = closestNeighbour;
+            }
+        }
+
     }
 }
