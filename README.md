@@ -18,3 +18,20 @@ Finding a path from I to F
     The closest neighbour from K is F you can go there in 8 minutes.
 We have arrived at F
 ```
+
+## Em seguida foi testado a abordagem Best First (Guloso), nessa heurística a avaliação passou a ser realizada através da distância de cada nó para F. 
+<img src="./distanciasdef.svg">
+
+```
+Finding a path from I to F by the best first search
+    The closest neighbour from F from I is N you would be then 11 minutes away from F.
+    The closest neighbour from F from N is P you would be then 9 minutes away from F.
+    The closest neighbour from F from P is Q you would be then 9 minutes away from F.
+    The closest neighbour from F from Q is R you would be then 11 minutes away from F.
+    The closest neighbour from F from R is S you would be then 11 minutes away from F.
+    The closest neighbour from F from S is T you would be then 7 minutes away from F.
+    The closest neighbour from F from T is W you would be then 5 minutes away from F.
+    The closest neighbour from F from W is F you would be then 0 minutes away from F.
+We have arrived at F
+```
+Adaptei o código para que ele finalizasse com uma rota, mas a abordagem original pode não retornar até o final pois não é um algoritmo completo.

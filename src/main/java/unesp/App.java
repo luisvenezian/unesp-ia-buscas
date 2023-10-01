@@ -68,6 +68,7 @@ public class App
         T.setNeighbourhood(S, 4);
         T.setNeighbourhood(V, 7);
         T.setNeighbourhood(B, 11);
+        T.setNeighbourhood(W, 3);
 
         S.setNeighbourhood(R, 2);
         S.setNeighbourhood(T, 4);
@@ -92,6 +93,9 @@ public class App
         I.setNeighbourhood(B, 4);
         I.setNeighbourhood(N, 12);
         I.setNeighbourhood(L, 5);
+
+        N.setNeighbourhood(P, 3);
+        N.setNeighbourhood(I, 12);
 
         // Find a path from 
         City current = I;
@@ -147,7 +151,7 @@ public class App
         P.distanceFromF = 9;
         U.distanceFromF = 10;
         V.distanceFromF = 8;
-        N.distanceFromF = 12;
+        N.distanceFromF = 11;
         L.distanceFromF = 18;
         M.distanceFromF = 9;
 
