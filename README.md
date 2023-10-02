@@ -40,7 +40,7 @@ Adaptei o código para que ele finalizasse com uma rota, mas a abordagem origina
 ## O Algoritmo A* é um pouco mais complexo que os demais, mas também é completo e sempre nos retorna a melhor rota, é bem semelhante com o algoritmo de Dijkstra, porém aqui consideramos também a distancia entre o nó atual e o destino.
 
 <img src="./mapaaestrela.svg">
-Saída recomendada pela minha implementação:
+Saída recomendada pela minha implementação:   
 ```
 The shortest path from I to F based on A* is:
 
