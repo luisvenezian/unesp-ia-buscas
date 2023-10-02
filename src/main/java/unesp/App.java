@@ -1,6 +1,8 @@
 package unesp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
 
 public class App 
 {
@@ -133,27 +135,27 @@ public class App
 
 
         // Best first search
-        I.distanceFromF = 19;
-        A.distanceFromF = 19;
-        B.distanceFromF = 16;
-        C.distanceFromF = 13;
-        D.distanceFromF = 13;
-        E.distanceFromF = 11;
-        G.distanceFromF = 9;
-        H.distanceFromF = 11;
-        K.distanceFromF = 11;
-        F.distanceFromF = 0;
-        W.distanceFromF = 5;
-        T.distanceFromF = 7;
-        S.distanceFromF = 11;
-        R.distanceFromF = 11;
-        Q.distanceFromF = 9;
-        P.distanceFromF = 9;
-        U.distanceFromF = 10;
-        V.distanceFromF = 8;
-        N.distanceFromF = 11;
-        L.distanceFromF = 18;
-        M.distanceFromF = 9;
+        I.distanceFromEnd = 19;
+        A.distanceFromEnd = 19;
+        B.distanceFromEnd = 16;
+        C.distanceFromEnd = 13;
+        D.distanceFromEnd = 13;
+        E.distanceFromEnd = 11;
+        G.distanceFromEnd = 9;
+        H.distanceFromEnd = 11;
+        K.distanceFromEnd = 11;
+        F.distanceFromEnd = 0;
+        W.distanceFromEnd = 5;
+        T.distanceFromEnd = 7;
+        S.distanceFromEnd = 11;
+        R.distanceFromEnd = 11;
+        Q.distanceFromEnd = 9;
+        P.distanceFromEnd = 9;
+        U.distanceFromEnd = 10;
+        V.distanceFromEnd = 8;
+        N.distanceFromEnd = 11;
+        L.distanceFromEnd = 18;
+        M.distanceFromEnd = 9;
 
         current = I;
         end = F;
@@ -167,7 +169,7 @@ public class App
         while(true){
             City closestNeighbour = current.getClosestNeighbourFromF(visited);
             visited.add(closestNeighbour);
-            System.out.println("The closest neighbour from F from " + current.name + " is " + closestNeighbour.name + " you would be then " + closestNeighbour.distanceFromF + " minutes away from F.");
+            System.out.println("The closest neighbour from F from " + current.name + " is " + closestNeighbour.name + " you would be then " + closestNeighbour.distanceFromEnd + " minutes away from F.");
 
             if (closestNeighbour == end) {
                 System.out.println("We have arrived at " + end.name);
@@ -177,5 +179,69 @@ public class App
             }
         }
 
+
+        // A* search, finds the shortest path from I to F 
+        // testing every possible path
+        PriorityQueue<City> alreadyProcessedCities = new PriorityQueue<>();
+        PriorityQueue<City> citiesToBeProcessed = new PriorityQueue<>();
+        
+        current = I;
+        end = F;
+
+        current.f =  + current.getDistanceTo(current) + current.distanceFromEnd;
+        current.g = 0;
+        citiesToBeProcessed.add(current);
+
+        while(!citiesToBeProcessed.isEmpty()){
+            City currentCity = citiesToBeProcessed.peek();
+
+            if(currentCity == end){
+                System.out.println("A* arrived at " + end.name);
+                break;
+            }
+
+            for(Map<City, Integer> neighbourhood : currentCity.getNeighbourhoods()){
+                for(Map.Entry<City, Integer> neighbour : neighbourhood.entrySet()){
+                    
+                    City neighbourCity = neighbour.getKey();
+                    Integer currentCost = currentCity.g + neighbour.getValue();   
+
+                    if(!citiesToBeProcessed.contains(neighbourCity) && !alreadyProcessedCities.contains(neighbourCity)){
+                        neighbourCity.parent = currentCity;
+                        neighbourCity.g = currentCost; 
+                        neighbourCity.f = neighbourCity.g + neighbourCity.distanceFromEnd;
+                        citiesToBeProcessed.add(neighbourCity);
+                    } else {
+                        if(currentCost < neighbourCity.g){
+                            neighbourCity.parent = currentCity;
+                            neighbourCity.g = currentCost;
+                            neighbourCity.f = neighbourCity.g + neighbourCity.distanceFromEnd;
+
+                            if (alreadyProcessedCities.contains(neighbourCity)){
+                                alreadyProcessedCities.remove(neighbourCity);
+                                citiesToBeProcessed.add(neighbourCity);
+                            }
+                        }
+                    }
+                }
+            }
+
+            citiesToBeProcessed.remove(currentCity);
+            alreadyProcessedCities.add(currentCity);
+        }
+
+        // Print the path 
+        City currentCity = end;
+        List<City> path = new ArrayList<>();
+        System.out.println("The shortest path from " + I.name + " to " + F.name + " based on A* is:\n");
+        while(currentCity != null){
+            currentCity = currentCity.parent;
+            path.add(currentCity);
+        }
+        for(int i = path.size() -2; i >= 0; i--){
+            System.out.print(path.get(i).name + " -> ");
+        }
+        System.out.println(end.name);
+ 
     }
 }

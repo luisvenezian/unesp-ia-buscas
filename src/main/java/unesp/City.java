@@ -2,12 +2,16 @@ package unesp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 
-public class City {
+public class City implements Comparable<City> {
 
-    List<Map<City, Integer>> neighbourhoods = new java.util.ArrayList<>();
+    List<Map<City, Integer>> neighbourhoods = new ArrayList<>();
     String name;
-    Integer distanceFromF;
+    Integer distanceFromEnd;
+    City parent = null;
+    Integer g; 
+    Integer f;
 
     public City(String name) {
         this.name = name;
@@ -46,7 +50,7 @@ public class City {
         City closestNeighbour = null;
         for (Map<City, Integer> neighbourhood : this.neighbourhoods) {
             for (Map.Entry<City, Integer> neighbour : neighbourhood.entrySet()) {
-                int neighbourDistanceFromF = neighbour.getKey().distanceFromF;
+                int neighbourDistanceFromF = neighbour.getKey().distanceFromEnd;
                 if (neighbourDistanceFromF < minDistance && !alreadyVisited.contains(neighbour.getKey())) {
                     minDistance = neighbourDistanceFromF;
                     closestNeighbour = neighbour.getKey();
@@ -58,6 +62,10 @@ public class City {
 
 
     public int getDistanceTo(City city) {
+        if (city == this) {
+            return 0;
+        }
+
         for (Map<City, Integer> neighbourhood : this.neighbourhoods) {
             for (Map.Entry<City, Integer> neighbour : neighbourhood.entrySet()) {
                 if (neighbour.getKey().equals(city)) {
@@ -67,5 +75,11 @@ public class City {
         }
         
         throw new RuntimeException("City " + city.name + " is not a neighbour of " + this.name);
+    }
+
+
+    @Override
+    public int compareTo(City o) {
+        return this.f.compareTo(o.f);
     }
 }
