@@ -47,3 +47,16 @@ The shortest path from I to F based on A* is:
 
 I -> B -> T -> W -> F
 ```
+
+## A implementação do algoritmo de Busca de Custo Uniforme foi semelhante ao A*, entretanto, esse não considera a heurística das distâncias dos nós para o destino final.
+
+Saída do algoritmo:
+
+```
+The shortest path from I to F based on Uniform Cost Search is:
+
+I -> B -> C -> E -> G -> K -> F
+```
+
+
+Todos as implementações estão disponíveis no código fonte desse repositório.

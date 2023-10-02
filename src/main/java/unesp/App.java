@@ -242,6 +242,71 @@ public class App
             System.out.print(path.get(i).name + " -> ");
         }
         System.out.println(end.name);
- 
+
+        // Uniform Cost Search
+        // It is the same as A* but without the heuristic function (distanceFromEnd)
+        // It finds the shortest path from I to F
+        // testing every possible path
+        alreadyProcessedCities = new PriorityQueue<>();
+        citiesToBeProcessed = new PriorityQueue<>();
+        
+        current = I;
+        end = F;
+
+        current.f =  + current.getDistanceTo(current);
+        current.g = 0;
+        citiesToBeProcessed.add(current);
+        currentCity = null;
+
+        while(!citiesToBeProcessed.isEmpty()){
+            currentCity = citiesToBeProcessed.peek();
+
+            if(currentCity == end){
+                System.out.println("A* arrived at " + end.name);
+                break;
+            }
+
+            for(Map<City, Integer> neighbourhood : currentCity.getNeighbourhoods()){
+                for(Map.Entry<City, Integer> neighbour : neighbourhood.entrySet()){
+                    
+                    City neighbourCity = neighbour.getKey();
+                    Integer currentCost = currentCity.g + neighbour.getValue();   
+
+                    if(!citiesToBeProcessed.contains(neighbourCity) && !alreadyProcessedCities.contains(neighbourCity)){
+                        neighbourCity.parent = currentCity;
+                        neighbourCity.g = currentCost; 
+                        neighbourCity.f = neighbourCity.g;
+                        citiesToBeProcessed.add(neighbourCity);
+                    } else {
+                        if(currentCost < neighbourCity.g){
+                            neighbourCity.parent = currentCity;
+                            neighbourCity.g = currentCost;
+                            neighbourCity.f = neighbourCity.g;
+
+                            if (alreadyProcessedCities.contains(neighbourCity)){
+                                alreadyProcessedCities.remove(neighbourCity);
+                                citiesToBeProcessed.add(neighbourCity);
+                            }
+                        }
+                    }
+                }
+            }
+
+            citiesToBeProcessed.remove(currentCity);
+            alreadyProcessedCities.add(currentCity);
+        }
+
+        // Print the path 
+        currentCity = end;
+        path = new ArrayList<>();
+        System.out.println("The shortest path from " + I.name + " to " + F.name + " based on Uniform Cost Search is:\n");
+        while(currentCity != null){
+            currentCity = currentCity.parent;
+            path.add(currentCity);
+        }
+        for(int i = path.size() -2; i >= 0; i--){
+            System.out.print(path.get(i).name + " -> ");
+        }
+        System.out.println(end.name);
     }
 }
