@@ -41,6 +41,7 @@ Adaptei o código para que ele finalizasse com uma rota, mas a abordagem origina
 
 <img src="./mapaaestrela.svg">
 Saída recomendada pela minha implementação:   
+
 ```
 The shortest path from I to F based on A* is:
 
